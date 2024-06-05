@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <title>Document</title>
+    <style>
+        #root{
+            height: 500px;
+            width: 500px;
+            margin: auto;
+        }
+        .button{
+            display: flex;
+            flex-direction: row;
+            margin: auto;
+            height: 1.5rem;
+            width: 1.5rem;
+        }
+        #root{
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+    <div id="root" class="button"></div>
+
+    <script type="text/babel">
+        let run = 0;
+        let wic = 0;
+        let showArray = [];
+        let hit = ''
+        function update(num){
+            //console.log("vvv",typeof(num))
+            // to way to use [onClick={update}] and [onClick= {()=> {update(1)}}]
+            if(typeof(num)=== "number" && wic < 10){
+                    run += num;
+            }else{
+                if(wic < 10){
+                    wic += 1
+                }
+            }
+            showArray.push(num);
+            rootElement.render(<App/>)
+            console.log("array ",showArray)
+        }
+        function Show(){
+            return (
+                <div>
+                {showArray.map((result, i)=>(
+                    <>
+                        {(i % 6 === 0) ? <br/> : null}
+                        {/* Hare implement res== 'W' THEN colour is res */}
+                        <span key={i} style={{color: result=="w" ?  `red` : `black`}}>{result==0 ? <strong>.</strong> : result}</span>&nbsp;&nbsp;&nbsp;
+                    </>
+                ))}
+                </div>
+            )
+        }
+        function handler(event){
+            event.preventDefault()
+        }
+        function Form(){
+            return(
+                <>
+                    <form action="" onClick={handler}>
+                        <input type="text"/>&nbsp;
+                        <input type="text" />
+                        <button>Submit</button>
+                    </form>
+                </>
+            )
+        }
+        function App(){
+            
+            return(
+                <div>
+                    <h1>SCORE KEEPER</h1>
+                    <p>SCORE: {run}/{wic}</p>
+                    <button onClick= {()=> {update(0)}}>0</button>
+                    <button onClick= {()=> {update(1)}}>1</button>
+                    <button onClick= {()=> {update(2)}}>2</button>
+                    <button onClick= {()=> {update(3)}}>3</button>
+                    <button onClick= {()=> {update(4)}}>4</button>
+                    <button onClick= {()=> {update(5)}}>5</button>
+                    <button onClick= {()=> {update(6)}}>6</button>
+                    <button onClick= {()=> {update("w")}}>Wicket</button>
+                    <Show/>
+                    <br/>
+                    <Form/>
+
+                </div>
+            )
+        }
+
+        const rootElement = ReactDOM.createRoot(document.getElementById('root'))
+        rootElement.render(<App/>)
+    </script>
+</body>
+</html>
